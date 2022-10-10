@@ -1,0 +1,30 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url("https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap");
+
+* > * {
+  font-family: "Popins", sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --color-yellow: #f9d71c;
+  /* --color-blue: #3b5998; */
+  --color-purple: #9d4edd;
+}
+
+.App {
+  text-align: center;
+  padding: 4em 0;
+}
+
+.bg-yellow {
+  background-color: var(--color-yellow);
+}
+
+.bg-purple {
+  background-color: var(--color-purple);
+}
