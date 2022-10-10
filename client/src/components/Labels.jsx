@@ -1,31 +1,21 @@
 import React from "react";
-
-const expenseTypes = [
-  {
-    type: "Savings",
-    color: "#f9d71c",
-    percent: 45,
-  },
-  {
-    type: "Investments",
-    color: "#f9d71c",
-    percent: 20,
-  },
-  {
-    type: "Expenses",
-    color: "#f9d71c",
-    percent: 35,
-  },
-];
+import { default as api } from "../store/apiSlice";
 
 function Labels() {
-  return (
-    <>
-      {expenseTypes.map((expenseType) => (
-        <LabelComponent data={expenseType}></LabelComponent>
-      ))}
-    </>
-  );
+  const { data, isFetching, isSuccess, isError } = api.useGetLabelsQuery();
+
+  let Transactions;
+
+  if (isFetching) Transactions = <div>Fetching</div>;
+  else if (isSuccess)
+    Transactions = data.map((expenseType) => (
+      <LabelComponent data={expenseType}></LabelComponent>
+    ));
+  else if (isError) {
+    Transactions = <div>Error</div>;
+  }
+
+  return <>{Transactions}</>;
 }
 
 function LabelComponent({ data }) {
