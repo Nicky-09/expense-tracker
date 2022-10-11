@@ -1,13 +1,17 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import TransactionHistory from "./TransactionHistory";
+import { default as api } from "../store/apiSlice";
 
 function AddExpense() {
   const { register, handleSubmit, resetField } = useForm();
+  const [addTransaction] = api.useAddTransactionMutation();
 
-  const onSubmit = (data) => {
-    console.log(data);
-    resetField();
+  const onSubmit = async (data) => {
+    if (!data) return {};
+    await addTransaction(data).unwrap();
+    resetField("name");
+    resetField("amount");
   };
 
   return (
@@ -19,12 +23,12 @@ function AddExpense() {
           <div className="input-group">
             <input
               type="text"
-              {...register("transactionName")}
+              {...register("name")}
               placeholder="Salary"
               className="form-input"
             ></input>
           </div>
-          <select className="form-input" {...register("transactionType")}>
+          <select className="form-input" {...register("type")}>
             <option value="Investments">Investments</option>
             <option value="Savings">Savings</option>
             <option value="Expense">Expense</option>
@@ -32,7 +36,7 @@ function AddExpense() {
           <div className="input-group">
             <input
               type="text"
-              {...register("transactionAmount")}
+              {...register("amount")}
               placeholder="Amount"
               className="form-input"
             ></input>

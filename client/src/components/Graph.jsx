@@ -2,55 +2,37 @@ import React from "react";
 import { Doughnut } from "react-chartjs-2";
 import { Chart, ArcElement } from "chart.js";
 import Labels from "./Labels";
+import { getChartData, getTotal } from "../helper/helper";
+import { default as api } from "../store/apiSlice";
 
 Chart.register(ArcElement);
 
-// const data = {
-//   labels: ["Red", "Blue", "Yellow"],
-//   datasets: [
-//     {
-//       label: "My First Dataset",
-//       data: [300, 50, 100],
-//       backgroundColor: [
-//         "rgb(255, 99, 132)",
-//         "rgb(54, 162, 235)",
-//         "rgb(255, 205, 86)",
-//       ],
-//       hoverOffset: 4,
-//     },
-//   ],
-// };
-
-const config = {
-  data: {
-    datasets: [
-      {
-        data: [300, 50, 100],
-        backgroundColor: [
-          "rgb(255, 99, 132)",
-          "rgb(54, 162, 235)",
-          "rgb(255, 205, 86)",
-        ],
-        hoverOffset: 4,
-      },
-    ],
-  },
-  options: {
-    cutout: 85,
-    borderRadius: 10,
-    spacing: 10,
-  },
-};
-
 function Graph() {
+  const { data, isFetching, isSuccess, isError } = api.useGetLabelsQuery();
+  let chartData;
+
+  if (isFetching) {
+    chartData = <div>Fetching</div>;
+  } else if (isSuccess) {
+    chartData = <Doughnut {...getChartData(data)}></Doughnut>;
+    // getLabels(data, "type");
+    // chartData = getLabels(data, "type").map((expenseType, i) => (
+    //   <LabelComponent key={i} data={expenseType}></LabelComponent>
+    // ));
+  } else if (isError) {
+    chartData = <div>Error</div>;
+  }
+
   return (
     <div className="flex justify-content max-w-xs mx-auto">
       <div className="item">
         <div className="chart relative">
-          <Doughnut {...config}></Doughnut>
+          {chartData}
           <h3 className="mb-4 font-bold title">
             Total
-            <span className="block text-3xl text-emerald-400">${0}</span>
+            <span className="block text-3xl text-emerald-400">
+              ₹ {getTotal(data)}
+            </span>
           </h3>
         </div>
 
