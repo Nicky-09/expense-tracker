@@ -29,6 +29,7 @@ function LabelComponent({ data }) {
         <h3>{data.type}</h3>
       </div>
       <h3 className="font-bold">{data.percent}</h3>
+      <span></span>
     </div>
   );
 }
