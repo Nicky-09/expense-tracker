@@ -41,6 +41,7 @@ function Transactions({ category }) {
           color={category.color ?? "#e5e5e5"}
         ></box-icon>
       </button>
+      <></>
       <span className="block w-full">{category.type ?? ""} </span>
     </div>
   );
