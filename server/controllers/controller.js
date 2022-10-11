@@ -3,9 +3,9 @@ const model = require("../models/model");
 //post categories http://localhost:7001/api/categories
 async function createCategory(req, res) {
   const Create = new model.Categories({
-    type: "Expense",
-    color: "#de4b4b",
-    percent: 7,
+    type: "Investment",
+    color: "#c43095",
+    percent: 0,
   });
   await Create.save()
     .then((data) => {
@@ -89,11 +89,6 @@ async function getLabels(req, res) {
     {
       $unwind: "$categories_info",
     },
-    // {
-    //   $unwind: {
-    //     path: "$categories_info",
-    //   },
-    // },
   ])
     .then((result) => {
       let data = result.map((v) =>
